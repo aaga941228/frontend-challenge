@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { registerGuards } from '@router/guards'
+import { ROLES } from '@/constants/roles'
 
 const routes = [
   {
@@ -27,7 +28,7 @@ const routes = [
         path: 'operator',
         name: 'operator',
         meta: {
-          roles: ['operator'],
+          roles: [ROLES.OPERATOR],
         },
         component: () => import('@/views/OperatorView.vue'),
       },
@@ -35,7 +36,7 @@ const routes = [
         path: 'supervisor',
         name: 'supervisor',
         meta: {
-          roles: ['supervisor'],
+          roles: [ROLES.SUPERVISOR],
         },
         component: () => import('@/views/SupervisorView.vue'),
       },

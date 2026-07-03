@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@stores/auth'
+import { ROLES } from '@/constants/roles'
 
 const router = useRouter()
 const { logout, state } = useAuthStore()
@@ -10,8 +11,8 @@ const mini = ref(false)
 
 const menuItems = [
   { role: 'public', label: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
-  { role: 'operator', label: 'Operator', icon: 'engineering', to: '/operator' },
-  { role: 'supervisor', label: 'Supervisor', icon: 'admin_panel_settings', to: '/supervisor' },
+  { role: ROLES.OPERATOR, label: 'Operator', icon: 'engineering', to: '/operator' },
+  { role: ROLES.SUPERVISOR, label: 'Supervisor', icon: 'admin_panel_settings', to: '/supervisor' },
 ]
 
 const menuItemsForRoles = computed(() =>
