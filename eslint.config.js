@@ -9,6 +9,15 @@ export default [
   },
   {
     files: ['**/*.{js,mjs,cjs,ts,vue}'],
+    languageOptions: {
+      parserOptions: {
+        parser: tseslint.parser,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        extraFileExtensions: ['.vue'],
+      },
+      globals: globals.browser,
+    },
   },
   {
     languageOptions: {
@@ -23,6 +32,8 @@ export default [
       'vue/multi-word-component-names': 'off',
       'vue/html-self-closing': 'warn',
       'vue/no-mutating-props': 'error',
+      'vue/max-attributes-per-line': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
     },
   },
 ]
