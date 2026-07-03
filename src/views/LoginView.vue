@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useAuthStore } from '@stores/auth'
+import { useNotify } from '@composables/useNotify'
+
+const { showError } = useNotify()
+const { login } = useAuthStore()
 
 const submitting = ref(false)
 const email = ref('')
@@ -20,12 +25,12 @@ const onSubmitLogin = async () => {
     const valid = await form.value.validate()
 
     if (!valid) return
+
+    await login(email.value, password.value)
   } catch (error: unknown) {
-    console.log('error', error)
+    showError(error as string)
   } finally {
-    setTimeout(() => {
-      submitting.value = false
-    }, 3000)
+    submitting.value = false
   }
 }
 </script>

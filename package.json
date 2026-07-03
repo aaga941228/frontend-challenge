@@ -16,6 +16,7 @@
     "@quasar/extras": "^2.0.2",
     "axios": "^1.18.1",
     "crypto-js": "^4.2.0",
+    "jose": "^6.2.3",
     "jwt-decode": "^4.0.0",
     "pinia": "^3.0.4",
     "quasar": "^2.20.3",
