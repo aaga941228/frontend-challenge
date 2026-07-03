@@ -1,6 +1,9 @@
 import { generateToken } from '@utils/jwt'
 
-const login = async (email: string, password: string): Promise<string> => {
+const login = async (
+  email: string,
+  password: string
+): Promise<{ token: string; role: 'supervisor' | 'operador' }> => {
   const allowedEmails = ['supervisor@test.com', 'operador@test.com']
   const allowedPassword = 'password'
 
@@ -8,7 +11,7 @@ const login = async (email: string, password: string): Promise<string> => {
     throw new Error('Credenciales invalidas')
   }
 
-  const role = email.split('@')[0]
+  const role = email.split('@')[0] as 'supervisor' | 'operador'
   const id = role === 'supervisor' ? 1 : 2
 
   const token = await generateToken({
@@ -17,7 +20,7 @@ const login = async (email: string, password: string): Promise<string> => {
     email,
   })
 
-  return token
+  return { token, role }
 }
 
 export { login }
