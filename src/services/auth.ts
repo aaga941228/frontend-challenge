@@ -1,7 +1,8 @@
 import type { Role } from '@/types/auth'
+import type { LoginResponse } from '@/types/loginResponse'
 import { generateToken } from '@utils/jwt'
 
-const login = async (email: string, password: string): Promise<{ token: string; role: Role }> => {
+const login = async (email: string, password: string): Promise<LoginResponse> => {
   const allowedEmails = ['supervisor@test.com', 'operator@test.com']
   const allowedPassword = 'password'
 
@@ -18,7 +19,7 @@ const login = async (email: string, password: string): Promise<{ token: string; 
     email,
   })
 
-  return { token, role }
+  return { email, token, role }
 }
 
 export { login }
