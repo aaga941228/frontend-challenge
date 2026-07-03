@@ -1,18 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@stores/auth'
 
 const router = useRouter()
-const { logout } = useAuthStore()
+const { logout, state } = useAuthStore()
 
 const mini = ref(false)
 
 const menuItems = [
-  { label: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
-  { label: 'Operator', icon: 'engineering', to: '/operator' },
-  { label: 'Supervisor', icon: 'admin_panel_settings', to: '/supervisor' },
+  { role: 'public', label: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
+  { role: 'operator', label: 'Operator', icon: 'engineering', to: '/operator' },
+  { role: 'supervisor', label: 'Supervisor', icon: 'admin_panel_settings', to: '/supervisor' },
 ]
+
+const menuItemsForRoles = computed(() =>
+  menuItems.filter(x => {
+    return x.role === 'public' || x.role === state.role
+  })
+)
 
 const toggleSidebar = () => {
   mini.value = !mini.value
@@ -25,7 +31,7 @@ const onLogout = () => {
 </script>
 
 <template>
-  <q-drawer :model-value="true" bordered show-if-above :width="240" :mini-width="64" :mini="mini">
+  <q-drawer :model-value="true" :breakpoint="0" :mini="mini" :mini-width="64" :width="240" bordered>
     <div class="column fit">
       <div class="q-pa-sm">
         <q-btn flat round dense icon="menu" @click="toggleSidebar">
@@ -34,7 +40,7 @@ const onLogout = () => {
       </div>
 
       <q-list class="col">
-        <q-item v-for="item in menuItems" :key="item.label" clickable :to="item.to">
+        <q-item v-for="item in menuItemsForRoles" :key="item.label" clickable :to="item.to">
           <q-item-section avatar>
             <q-icon :name="item.icon">
               <q-tooltip v-if="mini" anchor="center right" self="center left">

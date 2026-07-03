@@ -26,11 +26,17 @@ const routes = [
       {
         path: 'operator',
         name: 'operator',
+        meta: {
+          roles: ['operator'],
+        },
         component: () => import('@/views/OperatorView.vue'),
       },
       {
         path: 'supervisor',
         name: 'supervisor',
+        meta: {
+          roles: ['supervisor'],
+        },
         component: () => import('@/views/SupervisorView.vue'),
       },
     ],

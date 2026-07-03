@@ -23,15 +23,12 @@ const passwordRules = [(value: string) => !!value || 'La contraseña es requerid
 
 const onSubmitLogin = async () => {
   try {
-    console.log('onSubmitLogin')
     submitting.value = true
     const valid = await form.value.validate()
 
     if (!valid) return
 
     await login(email.value, password.value)
-
-    console.log('before push')
 
     router.push({ name: 'dashboard' })
   } catch (error: unknown) {
