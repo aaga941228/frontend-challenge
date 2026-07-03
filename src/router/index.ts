@@ -23,6 +23,16 @@ const routes = [
         name: 'dashboard',
         component: () => import('@/views/DashboardView.vue'),
       },
+      {
+        path: 'operator',
+        name: 'operator',
+        component: () => import('@/views/OperatorView.vue'),
+      },
+      {
+        path: 'supervisor',
+        name: 'supervisor',
+        component: () => import('@/views/SupervisorView.vue'),
+      },
     ],
   },
 ]
