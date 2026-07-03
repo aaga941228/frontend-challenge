@@ -10,7 +10,7 @@ const { logout, state } = useAuthStore()
 const mini = ref(false)
 
 const menuItems = [
-  { role: 'public', label: 'Dashboard', icon: 'dashboard', to: '/dashboard' },
+  { role: 'public', label: 'EGlobal', icon: 'dashboard', to: '/dashboard' },
   { role: ROLES.OPERATOR, label: 'Operator', icon: 'engineering', to: '/operator' },
   { role: ROLES.SUPERVISOR, label: 'Supervisor', icon: 'admin_panel_settings', to: '/supervisor' },
 ]
@@ -32,19 +32,54 @@ const onLogout = () => {
 </script>
 
 <template>
-  <q-drawer :model-value="true" :breakpoint="0" :mini="mini" :mini-width="64" :width="240" bordered>
-    <div class="column fit">
-      <div class="q-pa-sm">
-        <q-btn flat round dense icon="menu" @click="toggleSidebar">
-          <q-tooltip>Expand / Collapse</q-tooltip>
-        </q-btn>
+  <q-drawer
+    :model-value="true"
+    :mini="mini"
+    :width="240"
+    :breakpoint="0"
+    :mini-width="72"
+    show-if-above
+    bordered
+    class="sidebar"
+  >
+    <div class="column fit no-wrap">
+      <div class="row items-center q-pa-md">
+        <q-btn flat round dense icon="menu" @click="toggleSidebar" />
+
+        <div v-show="!mini" class="text-h6 text-weight-bold q-ml-sm">EGlobal</div>
       </div>
 
-      <q-list class="col">
-        <q-item v-for="item in menuItemsForRoles" :key="item.label" clickable :to="item.to">
+      <q-separator />
+
+      <div class="column items-center q-py-lg">
+        <q-avatar color="primary" text-color="white" size="48px">
+          {{ state.email?.charAt(0).toUpperCase() }}
+        </q-avatar>
+
+        <div v-show="!mini" class="q-mt-sm text-subtitle2 text-weight-medium">
+          {{ state.email }}
+        </div>
+
+        <div v-show="!mini" class="text-caption text-grey-7 text-uppercase">
+          {{ state.role }}
+        </div>
+      </div>
+
+      <q-separator />
+
+      <q-list padding class="col">
+        <q-item
+          v-for="item in menuItemsForRoles"
+          :key="item.label"
+          clickable
+          :to="item.to"
+          exact
+          active-class="bg-primary text-white"
+          class="menu-item q-my-xs"
+        >
           <q-item-section avatar>
             <q-icon :name="item.icon">
-              <q-tooltip v-if="mini" anchor="center right" self="center left">
+              <q-tooltip v-if="mini">
                 {{ item.label }}
               </q-tooltip>
             </q-icon>
@@ -56,18 +91,35 @@ const onLogout = () => {
         </q-item>
       </q-list>
 
-      <div class="q-pa-sm">
+      <q-separator />
+
+      <div class="q-pa-md">
         <q-btn
           flat
           color="negative"
-          icon="logout"
           class="full-width"
+          icon="logout"
           :label="mini ? '' : 'Logout'"
           @click="onLogout"
         >
-          <q-tooltip v-if="mini" anchor="center right" self="center left"> Logout </q-tooltip>
+          <q-tooltip v-if="mini"> Logout </q-tooltip>
         </q-btn>
       </div>
     </div>
   </q-drawer>
 </template>
+
+<style scoped>
+.sidebar {
+  background: white;
+}
+
+.menu-item {
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+  background: rgba(25, 118, 210, 0.08);
+}
+</style>
