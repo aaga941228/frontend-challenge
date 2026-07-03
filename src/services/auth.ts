@@ -1,12 +1,10 @@
+import { ALLOWED_USERS, DEFAULT_PASSWORD } from '@/constants/auth'
 import type { Role } from '@/types/auth'
 import type { LoginResponse } from '@/types/loginResponse'
 import { generateToken } from '@utils/jwt'
 
 const login = async (email: string, password: string): Promise<LoginResponse> => {
-  const allowedEmails = ['supervisor@test.com', 'operator@test.com']
-  const allowedPassword = 'password'
-
-  if (!allowedEmails.includes(email) || password !== allowedPassword) {
+  if (!ALLOWED_USERS.includes(email) || password !== DEFAULT_PASSWORD) {
     throw new Error('Credenciales invalidas')
   }
 
