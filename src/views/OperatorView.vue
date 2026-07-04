@@ -24,7 +24,7 @@
           <q-input
             v-model="customerName"
             :disable="submitting"
-            :rules="clientNameRules"
+            :rules="customerNameRules"
             label="Nombre del cliente"
             outlined
             lazy-rules
@@ -82,6 +82,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useNotify } from '@/composables/useNotify'
+import { sale } from '@/services/transaction'
+import { encrypt } from '@/utils/cripto'
 
 const { showSuccess, showError } = useNotify()
 
@@ -98,7 +100,7 @@ const amountRules = [
   (value: string) => Number(value) > 0 || 'Cantiad inválida, solo valores mayores o iguales a 0',
 ]
 
-const clientNameRules = [(value: string) => !!value || 'Campo requerido']
+const customerNameRules = [(value: string) => !!value || 'Campo requerido']
 
 const cardNumberRules = [
   (value: string) => /^\d{16}$/.test(value.replace(/\s/g, '')) || 'Número de tarjeta inválido',
@@ -118,9 +120,23 @@ const onSubmit = async () => {
 
     if (!valid) return
 
-    showSuccess('Venta realizada exitosamente')
+    const { approvalNumber, financialReference, card } = await sale({
+      amount: Number(amount.value),
+      name: customerName.value,
+      cardNumber: encrypt(cardNumber.value),
+      expirationDate: encrypt(expirationDate.value),
+      cvv: encrypt(cvv.value),
+    })
 
     form.value.reset()
+
+    showSuccess(
+      `Venta realizada exitosamente.
+        Número de aprobación: ${approvalNumber}.
+        Número de referencia financiera: ${financialReference}
+        Número de tarjeta: ${card}
+      `
+    )
   } catch (error) {
     console.log('errror', error)
 
