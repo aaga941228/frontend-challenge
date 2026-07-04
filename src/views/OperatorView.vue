@@ -82,7 +82,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useNotify } from '@/composables/useNotify'
-import { sale } from '@/services/transaction'
+import { sale } from '@/services/transactions'
 import { encrypt } from '@/utils/cripto'
 
 const { showSuccess, showError } = useNotify()
