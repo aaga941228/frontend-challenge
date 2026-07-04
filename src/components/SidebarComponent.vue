@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@stores/auth'
-import { ROLES } from '@/constants/roles'
+import { ROLES } from '@constants/roles'
 
 const router = useRouter()
 const { logout, state } = useAuthStore()

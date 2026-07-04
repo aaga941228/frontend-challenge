@@ -1,24 +1,11 @@
-import { ALLOWED_USERS, DEFAULT_PASSWORD } from '@/constants/auth'
-import { ROLES } from '@/constants/roles'
-import type { Role } from '@/types/auth'
+import http from '@api/http'
 import type { LoginResponse } from '@/types/loginResponse'
-import { generateToken } from '@utils/jwt'
 
-const login = async (email: string, password: string): Promise<LoginResponse> => {
-  if (!ALLOWED_USERS.includes(email) || password !== DEFAULT_PASSWORD) {
-    throw new Error('Credenciales invalidas')
-  }
-
-  const role = email.split('@')[0] as Role
-  const id = role === ROLES.SUPERVISOR ? 1 : 2
-
-  const token = await generateToken({
-    id,
-    role,
+export const login = async (email: string, password: string): Promise<LoginResponse> => {
+  const { data } = await http.post('/login', {
     email,
+    password,
   })
 
-  return { email, token, role }
+  return data
 }
-
-export { login }

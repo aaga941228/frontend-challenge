@@ -13,11 +13,11 @@ export const useAuthStore = defineStore(
     })
 
     const login = async (email: string, password: string) => {
-      const { token, role } = await loginService(email, password)
+      const data = await loginService(email, password)
 
-      state.email = email
-      state.token = token
-      state.role = role
+      state.email = data.email
+      state.token = data.token
+      state.role = data.role
     }
 
     const logout = () => {

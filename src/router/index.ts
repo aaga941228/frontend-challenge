@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { registerGuards } from '@router/guards'
-import { ROLES } from '@/constants/roles'
+import { ROLES } from '@constants/roles'
 
 const routes = [
   {

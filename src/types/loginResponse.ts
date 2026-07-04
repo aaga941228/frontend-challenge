@@ -1,5 +1,7 @@
+import type { Role } from '@models/auth'
+
 export interface LoginResponse {
-  email: string
-  role: string
   token: string
+  email: string
+  role: Role
 }
