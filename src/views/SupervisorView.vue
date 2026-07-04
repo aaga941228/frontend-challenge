@@ -60,6 +60,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useNotify } from '@/composables/useNotify'
+import { processTransaction } from '@/services/transactions'
+import { encrypt } from '@/utils/cripto'
 
 const { showSuccess, showError } = useNotify()
 
@@ -93,6 +95,12 @@ const onSubmit = async () => {
     const valid = await form.value.validate()
 
     if (!valid) return
+
+    processTransaction({
+      financialReference: Number(financialReference.value),
+      cardNumber: encrypt(cardNumber.value),
+      type: transactionType.value,
+    })
 
     showSuccess('Venta realizada exitosamente')
 
