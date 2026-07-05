@@ -27,4 +27,11 @@ export default defineConfig({
       '@router': fileURLToPath(new URL('./src/router', import.meta.url)),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@/styles/variables.scss" as *;`,
+      },
+    },
+  },
 })
