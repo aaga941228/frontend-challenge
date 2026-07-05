@@ -51,6 +51,20 @@ The backend is a simple Express application that stores data in memory for demon
 
 ---
 
+## Node.js Version
+
+This project was developed using **Node.js 22.14.0**.
+
+If you have **NVM** installed, run:
+
+```bash
+nvm use
+```
+
+Otherwise, make sure you are using **Node.js 22.14.0** (or a compatible Node.js 22.x version) before installing the dependencies.
+
+---
+
 ## Installation
 
 Install frontend dependencies:
