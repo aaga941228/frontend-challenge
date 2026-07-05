@@ -1,5 +1,116 @@
-# Vue 3 + TypeScript + Vite
+# EGlobal Technical Challenge
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Description
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+This project is a payment gateway simulation developed as part of the EGlobal technical challenge.
+
+The application supports two user roles:
+
+- **Operator**
+  - Create sales transactions.
+
+- **Supervisor**
+  - Process cancellations and refunds.
+  - View all transactions.
+
+Authentication is handled using **JWT**, while sensitive card information is encrypted using **AES** before being sent to the backend.
+
+The backend is a simple Express application that stores data in memory for demonstration purposes.
+
+---
+
+## Technologies
+
+### Frontend
+
+- Vue 3
+- TypeScript
+- Vite
+- Quasar
+- Vue Router
+- Pinia
+- Axios
+
+### Backend
+
+- Node.js
+- Express
+- JSON Web Token (JWT)
+- CryptoJS (AES)
+
+---
+
+## Project Structure
+
+```
+.
+├── src/
+├── server/
+└── README.md
+```
+
+---
+
+## Installation
+
+Install frontend dependencies:
+
+```bash
+npm install
+```
+
+Install backend dependencies:
+
+```bash
+npm run setup
+```
+
+---
+
+## Run the project
+
+Start the backend:
+
+```bash
+npm run server
+```
+
+Start the frontend (in a different terminal):
+
+```bash
+npm run dev
+```
+
+---
+
+## Demo Credentials
+
+### Operator
+
+**Email**
+
+```
+operator@eglobal.com
+```
+
+**Password**
+
+```
+password
+```
+
+---
+
+### Supervisor
+
+**Email**
+
+```
+supervisor@eglobal.com
+```
+
+**Password**
+
+```
+password
+```
