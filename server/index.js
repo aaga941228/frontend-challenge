@@ -14,12 +14,12 @@ const JWT_SECRET = "eglobal-secret";
 
 const USERS = [
   {
-    email: "supervisor@test.com",
+    email: "supervisor@eglobal.com",
     password: "password",
     role: "supervisor",
   },
   {
-    email: "operator@test.com",
+    email: "operator@eglobal.com",
     password: "password",
     role: "operator",
   },
