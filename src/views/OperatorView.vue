@@ -1,84 +1,3 @@
-<template>
-  <div class="page-container">
-    <q-card flat bordered class="form-card">
-      <q-card-section>
-        <div class="text-h5 text-weight-bold">New sale</div>
-        <div class="text-grey-7">Capture the information to process a sale..</div>
-      </q-card-section>
-
-      <q-separator />
-
-      <q-card-section>
-        <q-form ref="form" class="q-gutter-md" @submit.prevent="onSubmit">
-          <q-input
-            v-model="amount"
-            :rules="amountRules"
-            :disable="submitting"
-            prefix="$"
-            type="number"
-            label="Amount"
-            outlined
-            lazy-rules
-          />
-
-          <q-input
-            v-model="customerName"
-            :disable="submitting"
-            :rules="customerNameRules"
-            label="Customer name"
-            outlined
-            lazy-rules
-          />
-
-          <q-input
-            v-model="cardNumber"
-            :disable="submitting"
-            :rules="cardNumberRules"
-            label="Card number"
-            mask="#### #### #### ####"
-            outlined
-            fill-mask
-            lazy-rules
-          />
-
-          <q-input
-            v-model="expirationDate"
-            :disable="submitting"
-            :rules="expirationDateRules"
-            mask="##/##"
-            placeholder="MM/YY"
-            label="Expiration date"
-            outlined
-            fill-mask
-            lazy-rules
-          />
-
-          <q-input
-            v-model="cvv"
-            :rules="cvvRules"
-            :disable="submitting"
-            mask="###"
-            label="CVV"
-            type="password"
-            outlined
-            fill-mask
-          />
-
-          <div class="row justify-end">
-            <q-btn
-              :disable="submitting"
-              color="primary"
-              label="Process saleF"
-              icon="point_of_sale"
-              type="submit"
-            />
-          </div>
-        </q-form>
-      </q-card-section>
-    </q-card>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useNotify } from '@/composables/useNotify'
@@ -157,16 +76,124 @@ const onSubmit = async () => {
 }
 </script>
 
-<style scoped>
-.page-container {
-  display: flex;
-  justify-content: center;
-  padding: 48px;
-}
+<template>
+  <q-page padding class="row justify-center items-start">
+    <div class="col-12 flex flex-center">
+      <q-card
+        flat
+        bordered
+        class="form-card bg-white shadow-1"
+        style="width: 100%; max-width: 440px; border-radius: 12px"
+      >
+        <q-card-section class="q-pa-lg">
+          <div class="text-h5 text-weight-bold text-grey-9 row items-center no-wrap">
+            <q-icon name="add_shopping_cart" color="primary" class="q-mr-sm" size="28px" />
+            New Sale
+          </div>
+          <div class="text-caption text-grey-6 q-mt-xs">
+            Capture the information to process a sale.
+          </div>
+        </q-card-section>
 
+        <q-card-section class="q-px-lg q-pb-lg q-pt-none">
+          <q-form ref="form" class="q-gutter-y-sm" @submit.prevent="onSubmit">
+            <q-input
+              v-model="amount"
+              :rules="amountRules"
+              :disable="submitting"
+              prefix="$"
+              type="number"
+              label="Amount"
+              outlined
+              dense
+              lazy-rules
+            />
+
+            <q-input
+              v-model="customerName"
+              :disable="submitting"
+              :rules="customerNameRules"
+              label="Customer name"
+              outlined
+              dense
+              lazy-rules
+            />
+
+            <q-input
+              v-model="cardNumber"
+              :disable="submitting"
+              :rules="cardNumberRules"
+              label="Card number"
+              mask="#### #### #### ####"
+              outlined
+              dense
+              fill-mask
+              lazy-rules
+            >
+              <template #prepend>
+                <q-icon name="credit_card" color="grey-5" />
+              </template>
+            </q-input>
+
+            <div class="row q-col-gutter-x-md">
+              <div class="col-7">
+                <q-input
+                  v-model="expirationDate"
+                  :disable="submitting"
+                  :rules="expirationDateRules"
+                  mask="##/##"
+                  placeholder="MM/YY"
+                  label="Expiration date"
+                  outlined
+                  dense
+                  fill-mask
+                  lazy-rules
+                >
+                  <template #prepend>
+                    <q-icon name="date_range" color="grey-5" />
+                  </template>
+                </q-input>
+              </div>
+
+              <div class="col-5">
+                <q-input
+                  v-model="cvv"
+                  :rules="cvvRules"
+                  :disable="submitting"
+                  mask="###"
+                  label="CVV"
+                  type="password"
+                  outlined
+                  dense
+                  fill-mask
+                >
+                  <template #prepend>
+                    <q-icon name="enhanced_encryption" color="grey-5" />
+                  </template>
+                </q-input>
+              </div>
+            </div>
+
+            <q-btn
+              :disable="submitting"
+              color="primary"
+              label="Process Sale"
+              icon="point_of_sale"
+              type="submit"
+              class="full-width q-mt-md q-py-sm text-weight-bold"
+              unelevated
+              no-caps
+              style="border-radius: 8px"
+            />
+          </q-form>
+        </q-card-section>
+      </q-card>
+    </div>
+  </q-page>
+</template>
+
+<style scoped>
 .form-card {
-  width: 100%;
-  max-width: 420px;
-  border-radius: 16px;
+  transition: all 0.3s ease;
 }
 </style>

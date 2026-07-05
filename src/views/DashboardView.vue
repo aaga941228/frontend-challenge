@@ -129,52 +129,104 @@ onMounted(loadTransactions)
 </script>
 
 <template>
-  <q-page padding>
-    <q-card flat bordered>
-      <q-card-section>
-        <div class="text-h6">Transactions</div>
-      </q-card-section>
+  <q-page padding class="row justify-center">
+    <div class="col-12" style="max-width: 1400px">
+      <q-card flat bordered class="bg-white" style="border-radius: 12px">
+        <q-card-section class="q-py-md q-px-lg flex items-center justify-between">
+          <div class="text-h6 text-weight-bold text-grey-9">Transactions</div>
 
-      <q-separator />
+          <div v-if="!$q.screen.xs" class="text-caption text-grey-6">
+            Viewing records {{ (pagination.page - 1) * pagination.rowsPerPage + 1 }} -
+            {{ Math.min(pagination.page * pagination.rowsPerPage, rows.length) }}
+          </div>
+        </q-card-section>
 
-      <q-table
-        v-model:pagination="pagination"
-        :rows="rows"
-        :columns="columns"
-        :loading="loading"
-        row-key="financialReference"
-        flat
-      >
-        <template #body-cell-amount="props">
-          <q-td :props="props">
-            {{ formatCurrency(props.value) }}
-          </q-td>
-        </template>
+        <q-table
+          v-model:pagination="pagination"
+          :rows="rows"
+          :columns="columns"
+          :loading="loading"
+          :grid="$q.screen.xs"
+          row-key="financialReference"
+          flat
+          class="text-grey-8"
+          table-header-class="bg-grey-1 text-grey-9 text-weight-bold"
+        >
+          <template #body-cell-amount="props">
+            <q-td :props="props" class="text-weight-medium text-grey-9">
+              {{ formatCurrency(props.value) }}
+            </q-td>
+          </template>
 
-        <template #body-cell-type="props">
-          <q-td :props="props">
-            {{ getTypeLabel(props.value) }}
-          </q-td>
-        </template>
+          <template #body-cell-type="props">
+            <q-td :props="props">
+              {{ getTypeLabel(props.value) }}
+            </q-td>
+          </template>
 
-        <template #body-cell-status="props">
-          <q-td :props="props">
-            <q-chip :color="getStatusColor(props.value)" text-color="white" dense>
-              {{ getStatusLabel(props.value) }}
-            </q-chip>
-          </q-td>
-        </template>
+          <template #body-cell-status="props">
+            <q-td :props="props">
+              <q-badge
+                :color="getStatusColor(props.value)"
+                outline
+                class="q-px-md q-py-xs text-weight-bold text-uppercase"
+                style="border-radius: 20px; font-size: 0.7rem; letter-spacing: 0.5px"
+              >
+                {{ getStatusLabel(props.value) }}
+              </q-badge>
+            </q-td>
+          </template>
 
-        <template #body-cell-createdAt="props">
-          <q-td :props="props">
-            {{ formatDate(props.value) }}
-          </q-td>
-        </template>
+          <template #body-cell-createdAt="props">
+            <q-td :props="props" class="text-grey-6">
+              {{ formatDate(props.value) }}
+            </q-td>
+          </template>
 
-        <template #no-data>
-          <div class="full-width row justify-center q-pa-lg text-grey">No transactions found</div>
-        </template>
-      </q-table>
-    </q-card>
+          <template #item="props">
+            <div class="q-pa-sm col-xs-12 col-sm-6">
+              <q-card flat bordered class="q-pa-md" style="border-radius: 8px">
+                <div class="row justify-between items-center q-mb-sm">
+                  <div class="text-caption text-grey-6">
+                    Ref: #{{ props.row.financialReference }}
+                  </div>
+                  <q-badge
+                    :color="getStatusColor(props.row.status)"
+                    outline
+                    class="q-px-sm q-py-xs text-weight-bold text-uppercase"
+                    style="border-radius: 20px; font-size: 0.65rem"
+                  >
+                    {{ getStatusLabel(props.row.status) }}
+                  </q-badge>
+                </div>
+
+                <div class="text-subtitle1 text-weight-bold text-grey-9 q-mb-xs">
+                  {{ props.row.customerName || props.row.customer || 'Customer' }}
+                </div>
+
+                <div
+                  class="row justify-between items-center q-mt-md pt-sm border-top"
+                  style="border-top: 1px dashed #f0f0f0"
+                >
+                  <div class="text-subtitle2 text-primary text-weight-bold">
+                    {{ formatCurrency(props.row.amount) }}
+                  </div>
+                  <div class="text-caption text-grey-5">
+                    {{ formatDate(props.row.createdAt) }}
+                  </div>
+                </div>
+              </q-card>
+            </div>
+          </template>
+
+          <template #no-data>
+            <div class="full-width column items-center justify-center q-pa-xl text-grey-6">
+              <q-icon name="receipt_long" size="48px" class="q-mb-sm text-grey-4" />
+              <div class="text-weight-medium">No transactions found</div>
+            </div>
+          </template>
+        </q-table>
+      </q-card>
+    </div>
   </q-page>
 </template>
