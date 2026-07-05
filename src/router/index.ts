@@ -40,6 +40,11 @@ const routes = [
         },
         component: () => import('@/views/SupervisorView.vue'),
       },
+      {
+        path: ':pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import('@/views/NotFoundView.vue'),
+      },
     ],
   },
 ]
