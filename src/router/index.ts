@@ -4,7 +4,7 @@ import { ROLES } from '@constants/roles'
 
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     meta: {
       requiresGuest: true,

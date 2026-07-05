@@ -2,8 +2,8 @@
   <div class="page-container">
     <q-card flat bordered class="form-card">
       <q-card-section>
-        <div class="text-h5 text-weight-bold">Nueva venta</div>
-        <div class="text-grey-7">Captura la información para procesar una venta.</div>
+        <div class="text-h5 text-weight-bold">New sale</div>
+        <div class="text-grey-7">Capture the information to process a sale..</div>
       </q-card-section>
 
       <q-separator />
@@ -16,7 +16,7 @@
             :disable="submitting"
             prefix="$"
             type="number"
-            label="Importe"
+            label="Amount"
             outlined
             lazy-rules
           />
@@ -25,7 +25,7 @@
             v-model="customerName"
             :disable="submitting"
             :rules="customerNameRules"
-            label="Nombre del cliente"
+            label="Customer name"
             outlined
             lazy-rules
           />
@@ -34,7 +34,7 @@
             v-model="cardNumber"
             :disable="submitting"
             :rules="cardNumberRules"
-            label="Número de tarjeta"
+            label="Card number"
             mask="#### #### #### ####"
             outlined
             fill-mask
@@ -47,7 +47,7 @@
             :rules="expirationDateRules"
             mask="##/##"
             placeholder="MM/YY"
-            label="Fecha de expiración"
+            label="Expiration date"
             outlined
             fill-mask
             lazy-rules
@@ -68,7 +68,7 @@
             <q-btn
               :disable="submitting"
               color="primary"
-              label="Procesar venta"
+              label="Process saleF"
               icon="point_of_sale"
               type="submit"
             />
@@ -96,21 +96,22 @@ const cvv = ref('')
 const form = ref()
 
 const amountRules = [
-  (value: string) => !!value || 'Campo requerido',
-  (value: string) => Number(value) > 0 || 'Cantiad inválida, solo valores mayores o iguales a 0',
+  (value: string) => !!value || 'Required field',
+  (value: string) =>
+    Number(value) > 0 || 'Invalid quantity; only values ​​greater than or equal to 0.',
 ]
 
-const customerNameRules = [(value: string) => !!value || 'Campo requerido']
+const customerNameRules = [(value: string) => !!value || 'Required field']
 
 const cardNumberRules = [
-  (value: string) => /^\d{16}$/.test(value.replace(/\s/g, '')) || 'Número de tarjeta inválido',
+  (value: string) => /^\d{16}$/.test(value.replace(/\s/g, '')) || 'Invalid card number',
 ]
 
 const expirationDateRules = [
-  (value: string) => /^(0[1-9]|1[0-2])\/(2[5-9]|[3-9][0-9])$/.test(value) || 'Fecha inválida',
+  (value: string) => /^(0[1-9]|1[0-2])\/(2[5-9]|[3-9][0-9])$/.test(value) || 'Invalid date',
 ]
 
-const cvvRules = [(value: string) => /^\d{3}$/.test(value) || 'CVV inválido']
+const cvvRules = [(value: string) => /^\d{3}$/.test(value) || 'Invalid CVV']
 
 const onSubmit = async () => {
   try {
@@ -128,13 +129,20 @@ const onSubmit = async () => {
       cvv: encrypt(cvv.value),
     })
 
+    amount.value = ''
+    customerName.value = ''
+    cardNumber.value = ''
+    expirationDate.value = ''
+    cvv.value = ''
+
     form.value.reset()
 
     showSuccess(
-      `Venta realizada exitosamente.
-        Número de aprobación: ${approvalNumber}.
-        Número de referencia financiera: ${financialReference}
-        Número de tarjeta: ${card}
+      `
+        Sale successfully completed.
+        Approval number: ${approvalNumber}.
+        Financial reference number: ${financialReference}
+        Card number: ${card}
       `
     )
   } catch (error) {

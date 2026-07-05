@@ -3,11 +3,14 @@ import { onMounted, ref } from 'vue'
 import type { QTableColumn } from 'quasar'
 import { getTransactions } from '@services/transactions'
 import { useNotify } from '@composables/useNotify'
+import type { Transaction } from '@/types/transaction'
+import formatCurrency from '@/utils/formatCurrency'
+import formatDate from '@/utils/formatDate'
 
 const { showError } = useNotify()
 
 const loading = ref(false)
-const rows = ref([])
+const rows = ref<Transaction[]>([])
 
 const pagination = ref({
   page: 1,
@@ -37,11 +40,23 @@ const columns: QTableColumn[] = [
     sortable: true,
   },
   {
+    name: 'card',
+    label: 'Card',
+    field: 'card',
+    align: 'center',
+  },
+  {
     name: 'amount',
     label: 'Amount',
     field: 'amount',
     align: 'right',
     sortable: true,
+  },
+  {
+    name: 'type',
+    label: 'Type',
+    field: 'type',
+    align: 'center',
   },
   {
     name: 'status',
@@ -59,6 +74,19 @@ const columns: QTableColumn[] = [
   },
 ]
 
+const getStatusLabel = (status: string) => {
+  switch (status) {
+    case 'approved':
+      return 'Approved'
+    case 'refund':
+      return 'Refunded'
+    case 'cancellation':
+      return 'Cancelled'
+    default:
+      return status
+  }
+}
+
 const getStatusColor = (status: string) => {
   switch (status) {
     case 'approved':
@@ -69,6 +97,19 @@ const getStatusColor = (status: string) => {
       return 'warning'
     default:
       return 'grey'
+  }
+}
+
+const getTypeLabel = (type: string) => {
+  switch (type) {
+    case 'sale':
+      return 'Sale'
+    case 'refund':
+      return 'Refund'
+    case 'cancellation':
+      return 'Cancellation'
+    default:
+      return type
   }
 }
 
@@ -97,18 +138,36 @@ onMounted(loadTransactions)
       <q-separator />
 
       <q-table
+        v-model:pagination="pagination"
         :rows="rows"
-        :q-pagination="pagination"
         :columns="columns"
-        row-key="financialReference"
         :loading="loading"
+        row-key="financialReference"
         flat
       >
+        <template #body-cell-amount="props">
+          <q-td :props="props">
+            {{ formatCurrency(props.value) }}
+          </q-td>
+        </template>
+
+        <template #body-cell-type="props">
+          <q-td :props="props">
+            {{ getTypeLabel(props.value) }}
+          </q-td>
+        </template>
+
         <template #body-cell-status="props">
           <q-td :props="props">
             <q-chip :color="getStatusColor(props.value)" text-color="white" dense>
-              {{ props.value }}
+              {{ getStatusLabel(props.value) }}
             </q-chip>
+          </q-td>
+        </template>
+
+        <template #body-cell-createdAt="props">
+          <q-td :props="props">
+            {{ formatDate(props.value) }}
           </q-td>
         </template>
 

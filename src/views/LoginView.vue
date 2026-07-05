@@ -45,9 +45,9 @@ const onSubmitLogin = async () => {
       <div class="text-center q-mb-xl">
         <q-avatar size="72px" color="primary" text-color="white" icon="person" />
 
-        <div class="text-h4 text-weight-bold q-mt-md">Bienvenido</div>
+        <div class="text-h4 text-weight-bold q-mt-md">Welcome</div>
 
-        <div class="text-subtitle1 text-grey-7 q-mt-sm">Inicia sesión para continuar</div>
+        <div class="text-subtitle1 text-grey-7 q-mt-sm">Log in to continue</div>
       </div>
 
       <q-form ref="form" class="q-gutter-md" @submit.prevent="onSubmitLogin">
@@ -57,7 +57,7 @@ const onSubmitLogin = async () => {
           :disable="submitting"
           type="email"
           class="full-width"
-          label="Correo electrónico"
+          label="Email"
           outlined
           lazy-rules
         >
@@ -71,7 +71,7 @@ const onSubmitLogin = async () => {
           :disable="submitting"
           :rules="passwordRules"
           :type="showPassword ? 'text' : 'password'"
-          label="Contraseña"
+          label="Password"
           class="full-width"
           outlined
         >
@@ -92,7 +92,7 @@ const onSubmitLogin = async () => {
           :disable="submitting"
           type="submit"
           color="primary"
-          label="Iniciar sesión"
+          label="Login"
           class="full-width q-mt-md"
           unelevated
           no-caps

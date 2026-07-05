@@ -4,8 +4,6 @@ import { useAuthStore } from '@stores/auth'
 export function registerGuards(router: Router) {
   router.beforeEach(to => {
     const authStore = useAuthStore()
-    const { role } = authStore.state
-    const { roles } = to.meta
 
     if (to.meta.requiresAuth && !authStore.state.token) {
       return { name: 'login' }
@@ -15,7 +13,9 @@ export function registerGuards(router: Router) {
       return { name: 'dashboard' }
     }
 
-    if (to.meta.requiresAuth && to.name !== 'dashboard' && !roles!.includes(role!)) {
+    const roles = to.meta.roles
+
+    if (to.meta.requiresAuth && roles && !roles.includes(authStore.state.role!)) {
       return { name: 'dashboard' }
     }
   })

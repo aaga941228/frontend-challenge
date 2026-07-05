@@ -2,8 +2,8 @@
   <div class="page-container">
     <q-card flat bordered class="form-card">
       <q-card-section>
-        <div class="text-h5 text-weight-bold">Administrar transacción</div>
-        <div class="text-grey-7">Procesa una cancelación o devolución.</div>
+        <div class="text-h5 text-weight-bold">Manage transaction</div>
+        <div class="text-grey-7">Process a cancellation or refund.</div>
       </q-card-section>
 
       <q-separator />
@@ -15,7 +15,7 @@
             :options="transactionTypes"
             :rules="transactionTypeRules"
             :disable="submitting"
-            label="Tipo de transacción"
+            label="Transaction type"
             outlined
             emit-value
             map-options
@@ -25,7 +25,7 @@
             v-model="financialReference"
             :rules="financialReferenceRules"
             :disable="submitting"
-            label="Referencia financiera"
+            label="Financial reference"
             mask="########"
             outlined
           />
@@ -34,7 +34,7 @@
             v-model="cardNumber"
             :rules="cardNumberRules"
             :disable="submitting"
-            label="Número de tarjeta"
+            label="Card number"
             mask="#### #### #### ####"
             unmasked-value
             fill-mask
@@ -46,7 +46,7 @@
             <q-btn
               color="primary"
               icon="published_with_changes"
-              label="Procesar"
+              label="Process"
               type="submit"
               :loading="submitting"
             />
@@ -73,7 +73,7 @@ const cardNumber = ref('')
 
 const transactionTypes = [
   {
-    label: 'Cancelación',
+    label: 'Cancellation',
     value: 'cancellation',
   },
   {
@@ -82,11 +82,11 @@ const transactionTypes = [
   },
 ]
 
-const transactionTypeRules = [(value: string) => !!value || 'Campo requerido']
+const transactionTypeRules = [(value: string) => !!value || 'Required field']
 
-const financialReferenceRules = [(value: string) => /^\d{8}$/.test(value) || 'Referencia inválida']
+const financialReferenceRules = [(value: string) => /^\d{8}$/.test(value) || 'Invalid reference']
 
-const cardNumberRules = [(value: string) => /^\d{16}$/.test(value) || 'Tarjeta inválida']
+const cardNumberRules = [(value: string) => /^\d{16}$/.test(value) || 'Invalid card']
 
 const onSubmit = async () => {
   try {
@@ -102,9 +102,13 @@ const onSubmit = async () => {
       type: transactionType.value,
     })
 
-    showSuccess('Venta realizada exitosamente')
+    financialReference.value = ''
+    cardNumber.value = ''
+    transactionType.value = ''
 
     form.value.reset()
+
+    showSuccess('Transaction processed successfully')
   } catch (error) {
     console.log('errror', error)
 
