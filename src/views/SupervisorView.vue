@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useNotify } from '@/composables/useNotify'
 import { processTransaction } from '@/services/transactions'
 import { encrypt } from '@/utils/cripto'
+import type { AxiosError } from 'axios'
 
 const { showSuccess, showError } = useNotify()
 
@@ -37,7 +38,7 @@ const onSubmit = async () => {
 
     if (!valid) return
 
-    processTransaction({
+    await processTransaction({
       financialReference: Number(financialReference.value),
       cardNumber: encrypt(cardNumber.value),
       type: transactionType.value,
@@ -49,17 +50,22 @@ const onSubmit = async () => {
 
     form.value.reset()
 
-    showSuccess('Transaction processed successfully')
+    showSuccess(
+      transactionType.value === 'refund'
+        ? 'Refund processed successfully'
+        : 'Cancellation processed successfully'
+    )
   } catch (error) {
-    console.log('errror', error)
+    const message =
+      (error as AxiosError<{ message: string }>).response?.data.message ?? 'Unexpected error'
 
-    if (typeof error === 'string') {
-      showError(error)
-    }
+    showError(message)
   } finally {
     submitting.value = false
   }
 }
+
+// 12378891
 </script>
 
 <template>

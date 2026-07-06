@@ -117,7 +117,9 @@ const loadTransactions = async () => {
   try {
     loading.value = true
 
-    rows.value = await getTransactions()
+    const { data } = await getTransactions()
+
+    rows.value = data
   } catch {
     showError('Error al obtener las transacciones')
   } finally {

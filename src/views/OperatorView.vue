@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { AxiosError } from 'axios'
 import { useNotify } from '@/composables/useNotify'
 import { sale } from '@/services/transactions'
 import { encrypt } from '@/utils/cripto'
@@ -40,13 +41,15 @@ const onSubmit = async () => {
 
     if (!valid) return
 
-    const { approvalNumber, financialReference, card } = await sale({
+    const { data } = await sale({
       amount: Number(amount.value),
       name: customerName.value,
       cardNumber: encrypt(cardNumber.value),
       expirationDate: encrypt(expirationDate.value),
       cvv: encrypt(cvv.value),
     })
+
+    const { approvalNumber, financialReference, card } = data
 
     amount.value = ''
     customerName.value = ''
@@ -65,11 +68,10 @@ const onSubmit = async () => {
       `
     )
   } catch (error) {
-    console.log('errror', error)
+    const message =
+      (error as AxiosError<{ message: string }>).response?.data.message ?? 'Unexpected error'
 
-    if (typeof error === 'string') {
-      showError(error)
-    }
+    showError(message)
   } finally {
     submitting.value = false
   }
